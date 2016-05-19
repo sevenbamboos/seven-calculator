@@ -1,0 +1,6 @@
+c:\users\sam\documents\visual studio 2015\Projects\SevenCalculator\CalculatorModel\bin\Debug\CalculatorModel.exe.config
+c:\users\sam\documents\visual studio 2015\Projects\SevenCalculator\CalculatorModel\bin\Debug\CalculatorModel.exe
+c:\users\sam\documents\visual studio 2015\Projects\SevenCalculator\CalculatorModel\bin\Debug\CalculatorModel.pdb
+c:\users\sam\documents\visual studio 2015\Projects\SevenCalculator\CalculatorModel\obj\Debug\CalculatorModel.csprojResolveAssemblyReference.cache
+c:\users\sam\documents\visual studio 2015\Projects\SevenCalculator\CalculatorModel\obj\Debug\CalculatorModel.exe
+c:\users\sam\documents\visual studio 2015\Projects\SevenCalculator\CalculatorModel\obj\Debug\CalculatorModel.pdb
