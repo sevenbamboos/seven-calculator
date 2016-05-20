@@ -25,6 +25,10 @@ namespace samw.Calculator
 
             testWith(10, Expression.InitMultiply, 100, 100);
 
+            testWith(10, Expression.InitDivide, 100, 10);
+
+            testWith(10, Expression.InitDivide, 100, 100);
+
             Console.ReadKey();
         }
 

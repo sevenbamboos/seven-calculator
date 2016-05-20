@@ -69,14 +69,14 @@ namespace samw.Calculator.model
         {
             int num1, num2;
             random(num1Max, num2Max, out num1, out num2);
-            return Init(num1, num2, Add);
+            return init(num1, num2, Add);
         }
 
         public static IEvaluable InitMultiply(int num1Max, int num2Max)
         {
             int num1, num2;
             random(num1Max, num2Max, out num1, out num2);
-            return Init(num1, num2, Multiply);
+            return init(num1, num2, Multiply);
         }
 
         public static IEvaluable InitSubtract(int num1Max, int num2Max)
@@ -87,8 +87,42 @@ namespace samw.Calculator.model
             }
 
             int num1, num2;
-            randomWithOrder(num1Max, num2Max, out num1, out num2);
-            return Init(num1, num2, Subtract);
+            if (num1Max == num2Max)
+            {
+                num1 = randomRange(num1Max, 1);
+            }
+            else
+            {
+                num1 = randomRange(num1Max, num2Max);
+            }
+
+            num2 = randomRange(num2Max, 1);
+
+            if (num1 < num2)
+            {
+                exchange(ref num1, ref num2);
+            }
+            return init(num1, num2, Subtract);
+        }
+
+        public static IEvaluable InitDivide(int num1Max, int num2Max)
+        {
+            if (num1Max < num2Max)
+            {
+                exchange(ref num1Max, ref num2Max);
+            }
+
+            //TODO improve
+
+            int num2 = randomRange(num2Max, 1);
+            int result = num1Max / num2;
+
+            if (result == 1)
+            {
+                return InitDivide(num1Max, num2Max / 2);
+            }
+
+            return init(num2 * result, num2, Divide);
         }
 
         #region helper methods
@@ -100,55 +134,29 @@ namespace samw.Calculator.model
             i2 = tmp;
         }
 
-        static bool random()
+        static bool randomBool()
         {
             return getRandom().Next() % 2 == 0;
         }
 
-        static void randomWithOrder(int num1Max, int num2Max, out int num1, out int num2)
-        {
-            if (num1Max < num2Max)
-            {
-                throw new ArgumentException($"num1Max param {num1Max} failed to be greater than num2Max {num2Max}");
-            }
-
-            if (num1Max == num2Max)
-            {
-                num1 = random(num1Max, 1);
-            }
-            else
-            {
-                num1 = random(num1Max, num2Max);
-            }
-            
-            num2 = random(num2Max, 1);
-
-            if (num1 < num2)
-            {
-                exchange(ref num1, ref num2);
-            }
-        }
-
         static void random(int num1Max, int num2Max, out int num1, out int num2)
         {
-            num1 = random(num1Max, 1);
-            num2 = random(num2Max, 1);
-            if (random())
+            num1 = randomRange(num1Max, 1);
+            num2 = randomRange(num2Max, 1);
+            if (randomBool())
             {
                 exchange(ref num1, ref num2);
             }
         }
 
-        static int random(int max, int min)
-        {
-            return randomFuncWithMin(min)(max);
-        }
+        delegate int RandomRangeDelegate(int max, int min);
 
-        delegate int RandomFunc(int max);
+        static RandomRangeDelegate randomRange = createRandomRangeDelegate();
 
-        static RandomFunc randomFuncWithMin(int min)
+        static RandomRangeDelegate createRandomRangeDelegate()
         {
-            return max =>
+
+            return (max, min) =>
             {
                 //TODO precondition
                 if (max < min)
@@ -156,12 +164,12 @@ namespace samw.Calculator.model
                     throw new ArgumentException($"max param {max} failed to be greater than min {min}");
                 }
 
-                int result = random(max - min);
+                int result = randomInt(max - min);
                 return result + min;
             };
         }
 
-        static int random(int max)
+        static int randomInt(int max)
         {
             return getRandom().Next(max);
         }
@@ -174,12 +182,12 @@ namespace samw.Calculator.model
             return rnd;
         }
 
-        static IEvaluable Init(decimal num1, decimal num2, Func<decimal, decimal, decimal> op)
+        static IEvaluable init(decimal num1, decimal num2, Func<decimal, decimal, decimal> op)
         {
-            return Init(new SingleValueNode(num1), new SingleValueNode(num2), op);
+            return init(new SingleValueNode(num1), new SingleValueNode(num2), op);
         }
 
-        static IEvaluable Init(IEvaluable node1, IEvaluable node2, 
+        static IEvaluable init(IEvaluable node1, IEvaluable node2, 
             Func<decimal, decimal, decimal> op)
         {
             return new Expression
