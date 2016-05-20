@@ -72,14 +72,20 @@ namespace samw.Calculator.model
 
         static bool random()
         {
-            Random rnd = new Random((int)DateTime.Now.Ticks & 0xFFFF);
-            return rnd.Next() % 2 == 0;
+            return getRandom().Next() % 2 == 0;
         }
 
         static int random(int max)
         {
-            Random rnd = new Random((int) DateTime.Now.Ticks & 0xFFFF);
-            return rnd.Next(max);
+            return getRandom().Next(max);
+        }
+
+        static Random rnd = null;
+
+        static Random getRandom()
+        {
+            rnd = rnd ?? new Random((int)DateTime.Now.Ticks & 0xFFFF);
+            return rnd;
         }
 
         static IEvaluable Init(decimal num1, decimal num2, Func<decimal, decimal, decimal> op)
