@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace samw.Calculator.model
+namespace samw.Calculator.Model
 {
 
     public interface IEvaluable
@@ -112,16 +112,9 @@ namespace samw.Calculator.model
                 exchange(ref num1Max, ref num2Max);
             }
 
-            //TODO improve
-
             int num2 = randomRange(num2Max, 1);
-            int result = num1Max / num2;
-
-            if (result == 1)
-            {
-                return InitDivide(num1Max, num2Max / 2);
-            }
-
+            int resultMax = num1Max / num2;
+            int result = randomRange(resultMax, 1);
             return init(num2 * result, num2, Divide);
         }
 
@@ -161,7 +154,8 @@ namespace samw.Calculator.model
                 //TODO precondition
                 if (max < min)
                 {
-                    throw new ArgumentException($"max param {max} failed to be greater than min {min}");
+                    throw new ArgumentException(
+                        $"max param {max} failed to be greater than min {min}");
                 }
 
                 int result = randomInt(max - min);
