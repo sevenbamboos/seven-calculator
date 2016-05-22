@@ -7,6 +7,27 @@ using System.Threading.Tasks;
 namespace samw.Calculator.Model
 {
 
+    public class Exam
+    {
+        public string User { get; set; }
+        public DateTime StartTime { get; set; }
+
+        private List<Exercise> _exercises;
+        public void Add(Exercise exe)
+        {
+            if (_exercises == null)
+            {
+                _exercises = new List<Exercise>();
+            }
+            _exercises.Add(exe);
+        }
+
+        public void Generate(bool shuffle)
+        {
+
+        }
+    }
+
     public class Exercise
     {
         public delegate IEvaluable ExerciseFunc(int num1Max, int num2Max);
@@ -17,15 +38,46 @@ namespace samw.Calculator.Model
 
         private List<IEvaluable> _expressions;
 
-        public string Name { get; }
+        private int? _count;
 
-        public Exercise(string name, ExerciseFunc func, int num1Max, int num2Max)
+        public string Name { get; set; }
+
+        public int? TotalCount
+        {
+            get
+            {
+                return _expressions?.Count();
+            }
+        }
+
+        public int? CorrectCount
+        {
+            get
+            {
+                return (from expression in _expressions
+                        where expression.Correct
+                        select expression).Count();
+            }
+        }
+
+        public Exercise(string name, ExerciseFunc func, int num1Max, int num2Max, int? count=null)
         {
             Name = name;
+            _count = count;
             _func = () =>
             {
                 return func(num1Max, num2Max);
             };
+        }
+
+        public List<IEvaluable> Generate()
+        {
+            if (_count != null)
+            {
+                return Generate(_count.Value);
+            }
+
+            throw new InvalidOperationException("Can't generate without setting count");
         }
 
         public List<IEvaluable> Generate(int count)
