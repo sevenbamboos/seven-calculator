@@ -43,6 +43,12 @@ namespace samw.Calculator.Model
             exchangeRange(lst, 0, lst.Count - 1);
             exchangeRange(lst, 0, (lst.Count - 1) / 2);
             exchangeRange(lst, (lst.Count - 1) / 2 + 1, lst.Count - 1);
+
+            Random rnd = new Random((int)DateTime.Now.Ticks & 0xFFFF);
+            for (int i = 0; i < lst.Count / 3; i++)
+            {
+                exchange(lst, rnd.Next(lst.Count), rnd.Next(lst.Count));
+            }
         }
 
         static void exchangeRange<T>(List<T> lst, int i1, int i2)
