@@ -12,14 +12,13 @@ namespace samw.Calculator
 
         static void Main(string[] args)
         {
-            Exercise exe = new Exercise("add less than 100", Expression.InitAdd, 100, 100);
-            foreach (IEvaluable eva in exe.Generate(100))
-            {
-                eva.Answer = 100;
-                Console.WriteLine($"{eva} and your answer is {eva.Answer}");
-            }
+            var lst = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, };
 
-            Console.WriteLine($"You made {exe.CorrectCount} out of {exe.TotalCount}. Exercise {exe.Name}'s score is {100 * exe.CorrectCount / exe.TotalCount}");
+            Exam.doShuffle(lst);
+            foreach (var item in lst)
+            {
+                Console.Write($"{item},");
+            }
 
             Console.ReadKey();
         }

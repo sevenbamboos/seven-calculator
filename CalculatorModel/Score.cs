@@ -12,7 +12,7 @@ namespace samw.Calculator.Model
         public string User { get; set; }
         public DateTime StartTime { get; set; }
 
-        private List<Exercise> _exercises;
+        List<Exercise> _exercises;
         public void Add(Exercise exe)
         {
             if (_exercises == null)
@@ -22,9 +22,53 @@ namespace samw.Calculator.Model
             _exercises.Add(exe);
         }
 
-        public void Generate(bool shuffle)
+        public List<IEvaluable> Generate(bool shuffle)
         {
+            var evaList = new List<IEvaluable>();
+            foreach (Exercise exe in _exercises)
+            {
+                evaList.AddRange(exe.Generate());
+            }
+            
+            if (shuffle)
+            {
+                doShuffle(evaList);
+            }
 
+            return evaList;
+        }
+
+        public static void doShuffle<T>(List<T> lst)
+        {
+            reverse(lst, 0, lst.Count - 1);
+            reverse(lst, 0, (lst.Count - 1) / 2);
+            reverse(lst, (lst.Count - 1) / 2 + 1, lst.Count - 1);
+        }
+
+        static void reverse<T>(List<T> lst, int i1, int i2)
+        {
+            if (lst == null || lst.Count <= 1)
+            {
+                return;
+            }
+
+            for (int i = 0; i <= (i2-i1)/2; i++)
+            {
+                exchange(lst, i1 + i, i2 - i);
+            }
+        }
+
+        static void exchange<T>(List<T> lst, int i, int j)
+        {
+            //TODO precondition
+            if (i < 0 || i >= lst.Count || j < 0 || j >= lst.Count)
+            {
+                throw new ArgumentException($"Invalid i={i} or j={j}");
+            }
+
+            T tmp = lst[i];
+            lst[i] = lst[j];
+            lst[j] = tmp;
         }
     }
 
