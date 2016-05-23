@@ -40,9 +40,16 @@ namespace samw.Calculator.Model
 
         public static void doShuffle<T>(List<T> lst)
         {
-            reverse(lst, 0, lst.Count - 1);
-            reverse(lst, 0, (lst.Count - 1) / 2);
-            reverse(lst, (lst.Count - 1) / 2 + 1, lst.Count - 1);
+            exchangeRange(lst, 0, lst.Count - 1);
+            exchangeRange(lst, 0, (lst.Count - 1) / 2);
+            exchangeRange(lst, (lst.Count - 1) / 2 + 1, lst.Count - 1);
+        }
+
+        static void exchangeRange<T>(List<T> lst, int i1, int i2)
+        {
+            reverse(lst, i1, i2);
+            reverse(lst, i1, i1 + (i2 - i1) / 2);
+            reverse(lst, i1 + (i2 - i1) / 2 + 1, i2);
         }
 
         static void reverse<T>(List<T> lst, int i1, int i2)
