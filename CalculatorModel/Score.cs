@@ -38,7 +38,7 @@ namespace samw.Calculator.Model
             return evaList;
         }
 
-        public static void doShuffle<T>(List<T> lst)
+        static void doShuffle<T>(List<T> lst)
         {
             exchangeRange(lst, 0, lst.Count - 1);
             exchangeRange(lst, 0, (lst.Count - 1) / 2);
