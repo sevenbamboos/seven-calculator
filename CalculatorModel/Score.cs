@@ -24,6 +24,12 @@ namespace samw.Calculator.Model
 
         public List<IEvaluable> Generate(bool shuffle)
         {
+            if (_exercises == null)
+            {
+                //TODO use sth like List.Empty?
+                return new List<IEvaluable>();
+            }
+
             var evaList = new List<IEvaluable>();
             foreach (Exercise exe in _exercises)
             {
