@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "exports": {
+    "CalculatorModel/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.5.2",
+      "compile": {
+        "bin/Debug/CalculatorModel.exe": {}
+      },
+      "runtime": {
+        "bin/Debug/CalculatorModel.exe": {}
+      }
+    }
+  }
+}
